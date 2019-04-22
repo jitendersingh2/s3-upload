@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Web Forum</title>
+        <style>
+            * {
+                margin:0;
+                padding:0;
+            }
+            body {
+                background:url('https://i.imgur.com/gaqdL8o.jpg') repeat #ccc;
+                font-family: 'Open Sans', sans-serif;
+                font-weight:400;
+            }
+            div.container {
+                width:768px;
+                margin:0 auto;
+                background:white;
+                margin-top:10px;
+                margin-bottom: 30px;
+                border-radius:5px;
+                -webkit-border-radius:5px;
+                -moz-border-radius:5px;
+                -o-border-radius:5px;
+                -ms-border-radius:5px;
+                border:1px solid #ccc;
+                padding:10px;
+                color:#000000;
+                font-weight:320;
+                font-size:17px;
+            }
+            .header {
+                text-align: center;
+            }
+            .formElement {
+                padding:20px 5px 5px 160px;
+            }
+            label.label {
+                width:25%;
+                display:inline-block;
+                vertical-align:middle;
+                padding-right:25px;
+            }
+            input, select {
+                font-family: 'Open Sans', sans-serif;
+                background:rgb(232, 240, 254);
+                color:#000000;
+                border:none;
+                outline:none;
+                padding:13px;
+                border-radius:5px;
+                -webkit-border-radius:5px;
+                -moz-border-radius:5px;
+                -o-border-radius:5px;
+                -ms-border-radius:5px;
+                border:1px solid #ccc;
+                width:40%;
+                transition:all .3s;
+            }
+            select {
+                width:44.6%;
+                box-shadow:0 3px 0 #ccc;
+                -webkit-appearance:none;
+                -moz-appearance:none;
+                -o-appearance:none;
+                -ms-appearance:none;
+                appearance:none;
+                cursor:pointer;
+            }
+            input:hover,select:hover {
+                border-color:#aaa;
+            }
+            input:focus,select:focus {
+                box-shadow:0 0 0px 1.5px #3d92d9;
+            }
+
+            label.select {
+                position:relative;
+            }
+            label.select option {
+                margin-bottom: 5px;
+            }
+            label[for="dev"], label[for="qa"] {
+                cursor:pointer;
+            }
+            input[type="submit"] {
+                background:#3498db;
+                color: #fff;
+                cursor:pointer;
+                margin-right: 155px;
+                margin-top: 15px;
+                border-radius:40px;
+                -webkit-border-radius:40px;
+                -moz-border-radius:40px;
+                -o-border-radius:40px;
+                -ms-border-radius:40px;
+                width:20%;
+            }
+            input[type="submit"]:hover {
+                background:#69B7FA;
+                background:linear-gradient(#69B7FA, #3280c2);
+                background:-webkit-linear-gradient(#69B7FA, #3280c2);
+                background:-moz-linear-gradient(#69B7FA, #3280c2);
+                background:-o-linear-gradient(#69B7FA, #3280c2);
+                background:-ms-linear-gradient(#69B7FA, #3280c2);
+                box-shadow:inset 0 1px #6ce4f6, 0 1px #787778;
+            }
+            .formElement:last-child {
+                padding:0;
+                margin-bottom:15px;
+                text-align: right;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <h2 class="header">Office Depot Cloud Resources Exemption List</h2>
+            <form id="s3-form">
+                <div class="formElement">
+                    <label class="label" for="appSelect">Resource List</label>
+                    <label class="select">
+                        <select id="resource-list" required>
+                            <option value="">Select</option>
+                            <option value="AMI">AMI</option>
+                            <option value="Security Groups">Security Groups</option>
+                            <option value="EC2 Instances">EC2 Instances</option>
+                            <option value="Service Account Keys">Service Account Keys</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="formElement">
+                    <label class="label" for="resourceId">Resource ID</label>
+                    <input type="text" placeholder="Enter Resource ID" id="resourceId" required>
+                </div>
+
+                <div class="formElement">
+                    <label class="label" for="requestedBy">Requested By</label>
+                    <input type="email" placeholder="Enter Requestor Email Address" id="requestedBy" pattern=".+@officedepot.com" required>
+                </div>
+
+                <div class="formElement">
+                    <label class="label" for="team">Team</label>
+                    <input type="text" placeholder="Enter Team Name" id="team" required>
+                </div>
+
+                <div class="formElement">
+                    <label class="label" for="team">Environment</label>
+                    <input type="text" placeholder="Enter Environment" id="environment" required>
+                </div>
+
+                <div class="formElement">
+                    <label class="label" for="approvedBy">Approved By</label>
+                    <input type="email" placeholder="Enter Approver Email Address" id="approvedBy" pattern=".+@officedepot.com" required>
+                </div>
+
+                <div class="formElement">
+                    <label class="label" for="reason">Reason</label>
+                    <input type="text" placeholder="Enter Reason" id="reason" required>
+                </div>
+
+                <div class="formElement">
+                    <label class="label"></label>
+                    <input id="submit-form" type="submit" value="Submit" name="submit">
+                </div>
+            </form>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function () {            
+                $('#s3-form').submit(function( event ) {
+                    event.preventDefault();
+                    var resourceFolder = $('#resource-list').val();
+                    var data = {
+                        resource: $('#resource-list').val(),
+                        resourceid: $('#resourceId').val(),
+                        reason: $('#reason').val(),
+                        environment: $('#environment').val(),
+                        team: $('#team').val(),
+                        approvedby: $('#approvedBy').val(),
+                        requestedby: $('#requestedBy').val()
+                    };
+                    
+                    $.post('/putObjectS3', data, function(data, status) {
+                        if (status === 'success') {
+                            console.log('res- ', data);
+                            window.alert('Form is submitted successfully!!');
+                        } else { 
+                            console.log('error- ', data);
+                            window.alert('There was an error submitting the form.');
+                        }
+                    }).fail(function(e) {
+                        console.log('error- ', e);
+                        window.alert('There was an error submitting the form.');
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
