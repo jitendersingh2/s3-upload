@@ -44,7 +44,8 @@ app.post("/putObjectS3", function(request, response){
 		Key: path,
 		ContentType: 'application/json',
 		Body: JSON.stringify(data, null, 4),
-		ACL: 'public-read'
+		SSEKMSKeyId: '4e1edc87-d67a-4cf3-bc27-1995d19e5c8d',
+	        ServerSideEncryption:'aws:kms'
 	};
 
 	bucket.putObject(params, function(err, res) {
