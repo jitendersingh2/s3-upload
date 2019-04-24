@@ -1,4 +1,3 @@
-// BUCKET=s3-html-upload ACCESS_KEY_ID=AKIATOYXF4Y4VBJUTV6E  SECRET_ACCESS_KEY=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 node app.js
 const express = require('express');
 const app = express();
 var AWS = require("aws-sdk");
