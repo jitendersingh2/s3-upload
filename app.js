@@ -7,20 +7,10 @@ var bodyParser = require("body-parser");
 var moment = require('moment');
 const HTTP_PORT = 3000;
 
-var ACCESSKEY_ID, SECRETACCESS_KEY, SESSION_TOKEN, KMSKey, credentials;
-console.log("envvvvv", process.env.PORT);
-
-
-const S3Service = new AWS.S3({signatureVersion: "v4"});
-
-var BUCKET = process.env.BUCKET;
-var ACCESS_KEY_ID = process.env.ACCESS_KEY_ID;
-var SECRET_ACCESS_KEY = process.env.SECRET_ACCESS_KEY;
+var BUCKET = 'submit-upload';
 
 var bucket = new AWS.S3({
-	accessKeyId: ACCESS_KEY_ID,
-	secretAccessKey: SECRET_ACCESS_KEY,
-	signatureVersion: "v4"
+    signatureVersion: "v4"
 });
 
 app.use(bodyParser.json() );       // to support JSON-encoded bodies
